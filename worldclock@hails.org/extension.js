@@ -8,8 +8,6 @@ import { WorldClock } from "./worldclock.js";
 const TIMEZONE = "Australia/Melbourne";
 
 export default class WorldClockExtension {
-    _panelItem = null;
-
     enable() {
         this._clockDisplay = Main.panel.statusArea.dateMenu._clockDisplay;
         this._container = this._clockDisplay.get_parent();
@@ -20,14 +18,6 @@ export default class WorldClockExtension {
         this._container.remove_child(this._clockDisplay);
         this._container = null;
         this._clockDisplay = null;
-    }
-
-    setPanelItem(item) {
-        if (this._panelItem) {
-            this._panelItem.remove();
-        }
-
-        this._panelItem = item;
     }
 }
 
