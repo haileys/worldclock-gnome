@@ -1,0 +1,7 @@
+{
+    "uuid": "worldclock@hails.org",
+    "name": "World Clock",
+    "description": "Add another timezone to the gnome top bar",
+    "shell-version": ["46"],
+    "url": "https://github.com/haileys/gnome-ext-worldclock"
+  }
