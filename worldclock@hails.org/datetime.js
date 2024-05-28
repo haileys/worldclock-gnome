@@ -32,15 +32,17 @@ export function getClockOptions() {
     };
 }
 
+const FULL_DATE = "%-e %b";
+
 export function getClockFormatString(opt) {
     // function gnome_wall_clock_string_for_datetime
 
     if (opt.clockFormat === "24h") {
         if (opt.showFullDate) {
             if (opt.showWeekday) {
-                return opt.showSeconds ? "%a %b %-e_%R:%S" : "%a %b %-e_%R";
+                return opt.showSeconds ? `%a ${FULL_DATE}_%R:%S` : `%a ${FULL_DATE}_%R`;
             } else {
-                return opt.showSeconds ? "%b %-e_%R:%S" : "%b %-e_%R";
+                return opt.showSeconds ? `${FULL_DATE}_%R:%S` : `${FULL_DATE}_%R`;
             }
         } else if (opt.showWeekday) {
             return opt.showSeconds ? "%a %R:%S" : "%a %R";
@@ -50,9 +52,9 @@ export function getClockFormatString(opt) {
     } else {
         if (opt.showFullDate) {
             if (opt.showWeekday) {
-                return opt.showSeconds ? "%a %b %-e_%l:%M:%S %p" : "%a %b %-e_%l:%M %p";
+                return opt.showSeconds ? `%a ${FULL_DATE}_%l:%M:%S %p` : `%a ${FULL_DATE}_%l:%M %p`;
             } else {
-                return opt.showSeconds ? "%b %-e_%l:%M:%S %p" : "%b %-e_%l:%M %p";
+                return opt.showSeconds ? `${FULL_DATE}_%l:%M:%S %p` : `${FULL_DATE}_%l:%M %p`;
             }
         } else if (opt.showWeekday) {
             return opt.showSeconds ? "%a %l:%M:%S %p" : "%a %l:%M %p";
