@@ -5,15 +5,21 @@ import St from "gi://St";
 import * as Main from "resource:///org/gnome/shell/ui/main.js";
 import { WorldClock } from "./worldclock.js";
 
+const TIMEZONE = "Australia/Melbourne";
+
 export default class WorldClockExtension {
     _panelItem = null;
 
     enable() {
-        this.setPanelItem(new WorldClockPanelItem());
+        this._clockDisplay = Main.panel.statusArea.dateMenu._clockDisplay;
+        this._container = this._clockDisplay.get_parent();
+        this._container.insert_child_above(new WorldClockLabel(), this._clockDisplay);
     }
 
     disable() {
-        this.setPanelItem(null);
+        this._container.remove_child(this._clockDisplay);
+        this._container = null;
+        this._clockDisplay = null;
     }
 
     setPanelItem(item) {
@@ -25,23 +31,16 @@ export default class WorldClockExtension {
     }
 }
 
-class WorldClockPanelItem {
+const WorldClockLabel = GObject.registerClass(
+class WorldClockLabel extends St.Label {
     constructor() {
-        this.label = new St.Label({
+        super({
             opacity: 128,
             y_align: Clutter.ActorAlign.CENTER,
         });
 
-        const timezone = GLib.TimeZone.new_identifier("Australia/Melbourne");
+        const timezone = GLib.TimeZone.new_identifier(TIMEZONE);
         this._worldClock = new WorldClock({ timezone });
-        this._worldClock.bind_property("clock", this.label, "text", GObject.BindingFlags.SYNC_CREATE);
-
-        let clock = Main.panel.statusArea.dateMenu._clockDisplay;
-        this.container = clock.get_parent();
-        this.container.insert_child_above(this.label, clock);
+        this._worldClock.bind_property("clock", this, "text", GObject.BindingFlags.SYNC_CREATE);
     }
-
-    remove() {
-        this.container.remove_child(this.label);
-    }
-}
+});
