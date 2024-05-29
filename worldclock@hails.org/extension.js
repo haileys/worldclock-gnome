@@ -9,15 +9,17 @@ const TIMEZONE = "Australia/Melbourne";
 
 export default class WorldClockExtension {
     enable() {
-        this._clockDisplay = Main.panel.statusArea.dateMenu._clockDisplay;
-        this._container = this._clockDisplay.get_parent();
-        this._container.insert_child_above(new WorldClockLabel(), this._clockDisplay);
+        this._worldClock = new WorldClockLabel();
+
+        const clockDisplay = Main.panel.statusArea.dateMenu._clockDisplay;
+        this._container = clockDisplay.get_parent();
+        this._container.insert_child_above(this._worldClock, clockDisplay);
     }
 
     disable() {
-        this._container.remove_child(this._clockDisplay);
+        this._container.remove_child(this._worldClock);
         this._container = null;
-        this._clockDisplay = null;
+        this._worldClock = null;
     }
 }
 
